@@ -7,7 +7,7 @@ default_border pixel 2
 default_floating_border pixel 2
 
 # https://github.com/bluz71/vim-moonfly-colors/blob/4f7d18cb471ede7407dd966c7563868cae7f4f99/lua/moonfly/init.lua#L38
-client.focused #80a0ff #000000 #ffffff #80a0ff #80a0ff 
+client.focused #80a0ff #000000 #ffffff #80a0ff #80a0ff
 
 # You barely, if at all, see this
 font pango:monospace 8
@@ -17,7 +17,7 @@ gaps right 10
 gaps top 4
 gaps bottom 4
 gaps inner 4
-  
+
 # "XF86AudioMute" = ""
 # "XF86AudioRaiseVolume" = ""
 # "XF86AudioLowerVolume" = ""
@@ -61,3 +61,8 @@ bar {
 	workspace_buttons yes
 	strip_workspace_numbers yes
 }
+
+exec polybar
+exec dunst
+exec picom
+exec nm-applet

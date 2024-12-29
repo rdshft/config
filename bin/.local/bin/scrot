@@ -6,7 +6,7 @@ FILE_FORMAT=$(date -d "@${TIMESTAMP_TAKEN}" +'%F_%H-%M-%S') # 1970-01-01_00-00-0
 
 SCREENSHOTS_DIR_FORMAT="/home/sean/files/images/screenshots/${DIRECTORY_FORMAT}"
 
-if [[ ! -d "${SCREENSHOTS_DIR_FORMAT}" ]]; then
+if [ ! -d "${SCREENSHOTS_DIR_FORMAT}" ]; then
     mkdir -p "${SCREENSHOTS_DIR_FORMAT}"
 fi
 
@@ -19,5 +19,5 @@ selection=$(slop -f "-i %i -g %g")
 OUTPUT_FILE_FORMAT="${SCREENSHOTS_DIR_FORMAT}/${FILE_FORMAT}.png"
 
 # shellcheck disable=SC2086
-maim -f png $selection > "${OUTPUT_FILE_FORMAT}"
+maim -u -f png $selection > "${OUTPUT_FILE_FORMAT}"
 xclip -selection clipboard -t image/png "${OUTPUT_FILE_FORMAT}"
