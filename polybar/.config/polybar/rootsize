@@ -1,0 +1,3 @@
+#!/bin/sh
+
+df -h --output="avail,pcent" / | sed 1d | awk '{printf "%sB left (%s used) in /", $1, $2}'
