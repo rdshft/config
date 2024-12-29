@@ -9,8 +9,6 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 
-HISTORY_IGNORE="(ls|cd|pwd|exit|cd)*"
-
 # Further reading: https://martinheinz.dev/blog/110
 setopt EXTENDED_HISTORY      # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY    # Write to the history file immediately, not when the shell exits.
@@ -32,7 +30,6 @@ export FZF_DEFAULT_OPTS="--height=20 --layout=reverse"
 export PROMPT="%B%F{#ffffff}%n%f%b@%F{magenta}%m%f %B%F{blue}%c%f%b %# "
 
 path+=('/home/sean/.local/bin')
-fpath=(/usr/share/zsh/site-functions $fpath)
 
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
@@ -53,13 +50,14 @@ alias ytba="yt-dlp -f bestaudio"
 alias ytmp3="yt-dlp -x --extract-audio --audio-format mp3"
 
 function fcd() {
-    cd "$(bfs $HOME -type d -nocolor 2>/dev/null | fzf)"
+    cd "$(bfs $HOME -type d -nocolor 2>/dev/null | fzf --border)"
 }
 
 # Plugins
-source /usr/share/LS_COLORS/dircolors.sh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/site-functions/zsh-autosuggestions.zsh
+
+# Managed by stow
+source ~/.lscolors.sh
 
 eval "$(fzf --zsh)"
