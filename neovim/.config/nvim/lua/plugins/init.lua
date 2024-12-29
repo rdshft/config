@@ -32,4 +32,10 @@ return {
         "brenoprata10/nvim-highlight-colors",
         config = true
     },
+    {
+        "KSP-KOS/EditorTools",
+        config = function(plugin)
+            vim.opt.rtp:append(plugin.dir .. "/VIM/vim-kerboscript")
+        end
+    },
 }

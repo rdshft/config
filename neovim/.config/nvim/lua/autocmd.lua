@@ -1,8 +1,3 @@
-vim.api.nvim_create_autocmd("TermOpen", {
-    pattern = "*",
-    command = "set norelativenumber signcolumn=no"
-})
-
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     command = "%s/\\s\\+$//e",
@@ -50,7 +45,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
         if mark[1] > 0 and mark[1] <= lcount then
             pcall(vim.api.nvim_win_set_cursor, 0, mark)
-            vim.cmd("norm zz")
         end
     end,
 })

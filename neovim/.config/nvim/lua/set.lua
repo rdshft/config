@@ -47,7 +47,7 @@ vim.opt.listchars = {
 }
 
 vim.opt.laststatus = 3
-vim.opt.winbar = "%n %F %m"
+vim.opt.winbar = "%n %F %m%=%y"
 
 vim.opt.signcolumn = "yes"
 
