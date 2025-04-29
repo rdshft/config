@@ -14,7 +14,20 @@ return {
             indent = {
                 enable = true,
             },
-            ensure_installed = { "lua", "vim", "vimdoc", "python", "html", "css", "bash", "markdown", "go" },
+            ensure_installed = {
+                "lua",
+                "vim",
+                "vimdoc",
+                "python",
+                "html",
+                "css",
+                "bash",
+                "markdown",
+                "markdown_inline",
+                "go",
+                "zig"
+                -- "javascript"
+            },
             sync_install = true,
         }
     end

@@ -14,9 +14,9 @@ return {
                         ["<esc>"] = actions.close,
                         -- For some reason I have these memorised now despite them
                         -- being annoying but it also kinda makes sense so whatever.
-                        ["<C-w>s"] = actions.file_split,
-                        ["<C-w>v"] = actions.file_vsplit,
-                    },
+                        ["<C-j>"] = actions.file_split,
+                        ["<C-l>"] = actions.file_vsplit,
+                    }
                 },
                 layout_strategy = "center",
                 layout_config = {
