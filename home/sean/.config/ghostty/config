@@ -1,0 +1,43 @@
+command = /bin/zsh
+click-repeat-interval = 500
+
+font-family = FantasqueSansM Nerd Font
+font-size = 12
+font-feature = -calt
+font-feature = ss01
+adjust-cell-height = 5
+adjust-cursor-height = 5
+adjust-underline-position = 3
+
+window-decoration = false
+window-padding-x = 10
+window-padding-y = 8
+
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+background = "#080808"
+foreground = "#bdbdbd"
+selection-background = "#b2ceee"
+selection-foreground = "#080808"
+cursor-color = "#8e8e8e"
+bold-is-bright = false
+
+palette = 0=#080808
+palette = 1=#ff5454
+palette = 2=#8cc85f
+palette = 3=#e3c78a
+palette = 4=#80a0ff
+palette = 5=#cf87e8
+palette = 6=#79dac8
+palette = 7=#c6c6c6
+
+palette = 8=#949494
+palette = 9=#ff5189
+palette = 10=#36c692
+palette = 11=#c6c684
+palette = 12=#74b2ff
+palette = 13=#ae81ff
+palette = 14=#85dc85
+palette = 15=#e4e4e4
