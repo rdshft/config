@@ -1,6 +1,6 @@
 #!/bin/sh
 
-switch_config(){
+switch_home(){
     # -a: Recursively copies files and preserves symbolic links, permissions, timestamps, and other metadata.
     # -v: Provides detailed information about the transfer process.
     # -P: Shows progress during transfer and allows resuming of partially transferred files.
@@ -9,6 +9,11 @@ switch_config(){
     rsync -avPhu home/sean/ /home/sean
 }
 
+switch_sys(){
+    sudo rsync -avPhu system/ /
+}
+
 case "$1" in
-    "switch") switch_config ;;
+    "switchhome") switch_home ;;
+    "switchsys") switch_sys ;;
 esac
