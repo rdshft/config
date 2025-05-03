@@ -9,6 +9,9 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 
+autoload -U compinit
+compinit
+
 setopt extended_history      # Write the history file in the ':start:elapsed;command' format.
 setopt inc_append_history    # Write to the history file immediately, not when the shell exits.
 setopt share_history         # Share history between all sessions.
@@ -19,9 +22,13 @@ setopt hist_save_no_dups     # Do not write a duplicate event to the history fil
 setopt hist_verify           # Do not execute immediately upon history expansion.export
 setopt hist_no_store         # Don't store history commands
 setopt hist_reduce_blanks    # Remove superfluous blanks from each command line being added to the history.
+setopt globdots
+setopt extendedglob
 
-setopt auto_cd
-setopt noglobdots
+# Tab complete hidden files
+zstyle ':completion:*' file-patterns '.*' '*'
+# cd tab complete directories only (should be default behaviour if you ask me)
+zstyle ':completion:*:*:cd:*' file-patterns '*/' '.*(/)'
 
 bindkey "^[[A" up-line-or-search
 bindkey "^[[B" down-line-or-search
@@ -46,7 +53,7 @@ function get_git_branch() {
     fi
 }
 
-# needs this function so the colour_exit_code function can run or else the
+# needs this function so the above functions can run or else only the
 # condition runs fine but the prompt will not change
 precmd(){
     PS1="$(colour_exit_code)%B%F{#cccccc}%n%f%b@%F{magenta}%m%f %B%F{blue}%c%f%b $(get_git_branch)%# "
