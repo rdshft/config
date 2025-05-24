@@ -45,9 +45,10 @@ function colour_exit_code() {
 
 function get_git_branch() {
     local branch_name
-    if [[ -d ".git/" ]]; then
+    git status 2>/dev/null 1>/dev/null
+    if [[ $? == 0 ]]; then
         branch_name=$(git branch --show-current)
-        echo "%B%F{red}(git:$branch_name)%f%b "
+        echo "%B%F{red}git  $branch_name%f%b "
     else
         echo
     fi
@@ -93,3 +94,4 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.lscolors.sh
 
 eval "$(fzf --zsh)"
+eval "$(direnv hook zsh)"
