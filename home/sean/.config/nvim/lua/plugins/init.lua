@@ -38,4 +38,9 @@ return {
             vim.opt.rtp:append(plugin.dir .. "/VIM/vim-kerboscript")
         end
     },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        config = true
+    },
 }
