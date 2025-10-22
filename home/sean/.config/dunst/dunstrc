@@ -4,7 +4,7 @@
 corner_radius=5
 ellipsize="end"
 font="Cantarell 12"
-format="<b>%s</b> • %b"
+format="<span underline='single' weight='bold'>%s</span>\n%b"
 frame_width=2
 gap_size=4
 height=800

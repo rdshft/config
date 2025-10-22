@@ -13,7 +13,12 @@ switch_sys(){
     sudo rsync -avPhu system/ /
 }
 
+get_status(){
+    rsync -anc --out-format="%n,%i" home/sean/ /home/sean
+}
+
 case "$1" in
     "switchhome") switch_home ;;
     "switchsys") switch_sys ;;
+    "status") get_status ;;
 esac

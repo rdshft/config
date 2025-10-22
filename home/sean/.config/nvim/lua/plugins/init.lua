@@ -43,4 +43,7 @@ return {
         main = "ibl",
         config = true
     },
+    {
+        "mbbill/undotree",
+    },
 }

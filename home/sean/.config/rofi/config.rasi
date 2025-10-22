@@ -1,0 +1,77 @@
+// @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+* {
+    font: "Noto Sans 12";
+    background: #080808;
+    foreground: #bdbdbd;
+    cursor-color: #8e8e8e;
+
+    // Normal
+    color0: #323437;
+    color1: #ff5d5d;
+    color2: #8cc85f;
+    color3: #e3c78a;
+    color4: #80a0ff;
+    color5: #cf87e8;
+    color6: #79dac8;
+    color7: #c6c6c6;
+
+    // Bright
+    color8: #949494;
+    color9: #ff5189;
+    color10: #36c692;
+    color11: #c6c684;
+    color12: #74b2ff;
+    color13: #ae81ff;
+    color14: #85dc85;
+    color15: #e4e4e4;
+}
+
+window {
+    background-color: @background;
+    padding: 5px 10px 5px 10px;
+    border: 2px;
+    border-color: @color12;
+    width: 20%;
+}
+
+element {
+    children: [ element-icon, element-text ];
+}
+
+element.alternate.normal, element.alternate.urgent, element.alternate.active {
+    background-color: @background;
+}
+
+element-text {
+    padding: 5px 0px;
+}
+
+element-icon {
+    padding: 5px;
+    size: 24px;
+}
+
+entry {
+    padding: 5px;
+    placeholder: "";
+}
+
+listview {
+    border: 0px;
+    padding: 5px 0px 0px 0px;
+}
+
+textbox-prompt-colon, prompt, case-indicator, num-rows, num-filtered-rows, textbox-num-sep {
+    enabled: false;
+}
+
+// Effectively disable the scrollbar since `enabled` doesn't work
+scrollbar {
+    handle-width: 0px;
+}
+
+configuration {
+    drun-match-fields: "name"; // gotta do this or you get weird matches
+    drun-display-format: "{name}";
+}

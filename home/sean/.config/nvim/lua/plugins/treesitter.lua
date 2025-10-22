@@ -25,7 +25,8 @@ return {
                 "markdown",
                 "markdown_inline",
                 "go",
-                "zig"
+                "zig",
+                "regex"
                 -- "javascript"
             },
             sync_install = true,
