@@ -6,6 +6,7 @@ return {
             'ruff',
             'pylsp',
             'gopls',
+            'clangd'
         })
 
         vim.lsp.config('lua_ls', {

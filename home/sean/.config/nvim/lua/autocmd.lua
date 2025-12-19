@@ -3,6 +3,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     command = "%s/\\s\\+$//e",
 })
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = vim.fn.expand("~") .. "/.config/waybar/*",
+    -- command = "!killall -SIGUSR2 waybar",
+    callback = function()
+        vim.system({"killall", "-SIGUSR2", "waybar"})
+    end
+})
+
 -- It seems that if we have a nix buffer open then jump to another file the tab
 -- settings don't default to what is set in set.lua
 -- This makes sure that even if it does do this the cases where it doesn't are covered.
