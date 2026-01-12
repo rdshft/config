@@ -9,7 +9,7 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 setopt extended_history      # Write the history file in the ':start:elapsed;command' format.
@@ -30,36 +30,42 @@ zstyle ':completion:*' file-patterns '.*' '*'
 # cd tab complete directories only (should be default behaviour if you ask me)
 zstyle ':completion:*:*:cd:*' file-patterns '*/' '.*(/)'
 
+# 1. Tries exact match first
+# 2. Falls back to case-insensitive matching
+# 3. Then partial/substring matching
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*'
+
 bindkey "^[[A" up-line-or-search
 bindkey "^[[B" down-line-or-search
 
 export FZF_DEFAULT_OPTS="--height=20 --layout=reverse"
 
-function colour_exit_code() {
-    local exit_code=$?
-    if (( exit_code > 0 )); then
-        # Bold red for exit codes greater than 0
-        echo "%B%F{red}$exit_code%f%b "
-    fi
-}
+# function colour_exit_code() {
+#     local exit_code=$?
+#     if (( exit_code > 0 )); then
+#         # Bold red for exit codes greater than 0
+#         echo "%B%F{red}$exit_code%f%b "
+#     fi
+# }
 
-function get_git_branch() {
-    local branch_name
-    git status 2>/dev/null 1>/dev/null
-    if [[ $? == 0 ]]; then
-        branch_name=$(git branch --show-current)
-        echo "%B%F{red}git  $branch_name%f%b "
-    else
-        echo
-    fi
-}
+# function get_git_branch() {
+#     local branch_name
+#     git status 2>/dev/null 1>/dev/null
+#     if [[ $? == 0 ]]; then
+#         branch_name=$(git branch --show-current)
+#         echo "%B%F{red}git  $branch_name%f%b "
+#     else
+#         echo
+#     fi
+# }
 
 # needs this function so the above functions can run or else only the
 # condition runs fine but the prompt will not change
-precmd(){
-    PS1="$(colour_exit_code)%B%F{#cccccc}%n%f%b@%F{magenta}%m%f %B%F{blue}%c%f%b $(get_git_branch)%# "
-}
+# precmd(){
+#     PS1="$(colour_exit_code)%B%F{#cccccc}%n%f%b@%F{magenta}%m%f %B%F{blue}%c%f%b $(get_git_branch)%# "
+# }
 
+PS1="%B%F{#cccccc}%n%f%b@%F{magenta}%m%f %B%F{blue}%c%f%b %# "
 path+=('/home/sean/.local/bin')
 
 bindkey '^A' beginning-of-line
