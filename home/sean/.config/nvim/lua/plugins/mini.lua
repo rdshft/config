@@ -10,7 +10,6 @@ return {
             symbol = "│"
         })
 
-        -- require('mini.ai').setup()
         require('mini.splitjoin').setup()
         require('mini.align').setup()
         require('mini.pairs').setup()

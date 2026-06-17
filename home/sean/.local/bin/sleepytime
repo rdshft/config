@@ -1,0 +1,10 @@
+#!/bin/sh
+
+minute=$(date +"%M")
+
+case "$minute" in
+    30) notify-send "sleepytime" "This is your 30 minute warning before system suspend." ;;
+    45) notify-send "sleepytime" "This is your 15 MINUTE WARNING before system suspend!" ;;
+    55) notify-send "sleepytime" "THIS IS YOUR 5 MINUTE WARNING BEFORE SYSTEM SUSPEND." ;;
+    00) systemctl suspend ;;
+esac

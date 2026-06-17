@@ -12,4 +12,4 @@ st_nd_rd_th(){
 
 day=$(date +"%-d")
 
-date +"%-d$(st_nd_rd_th) %b %Y (%A) %H:%M"
+date +"%-d$(st_nd_rd_th) %b %Y"

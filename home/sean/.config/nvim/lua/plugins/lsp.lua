@@ -1,6 +1,21 @@
 return {
     "neovim/nvim-lspconfig",
     config = function()
+        local sev = vim.diagnostic.severity
+
+        vim.diagnostic.config({
+            severity_sort = true,
+            virtual_text = true,
+            signs = {
+                text = {
+                    [sev.ERROR] = '❌',
+                    [sev.WARN] = '⚠️',
+                    [sev.INFO] = 'ℹ️',
+                    [sev.HINT] = '🏳️',
+                },
+            },
+        })
+
         vim.lsp.enable({
             'lua_ls',
             'ruff',
@@ -32,35 +47,5 @@ return {
                 Lua = {}
             }
         })
-
-        vim.diagnostic.config({
-            virtual_text = true,
-            signs = {
-                text = {
-                    [vim.diagnostic.severity.ERROR] = '',
-                    [vim.diagnostic.severity.WARN] = '',
-                    [vim.diagnostic.severity.INFO] = '',
-                    [vim.diagnostic.severity.HINT] = '',
-                },
-            },
-        })
-
-        -- TODO: fix this, not sure why it doesn't work sometimes
-        -- vim.keymap.set("n", "<F2>", function ()
-        --     local current_clients = #vim.lsp.get_clients({
-        --         bufnr = vim.api.nvim_get_current_buf()
-        --     })
-        --
-        --     if current_clients == 0 then
-        --         local current_word = vim.fn.expand("<cword>")
-        --         return ":%s/" .. current_word .. "/" .. current_word .. "/g"
-        --     else
-        --         vim.lsp.buf.rename()
-        --     end
-        -- end, {
-        --     -- need this for the string above to actually be interpreted.
-        --     -- see https://neovim.io/doc/user/lua-guide.html#_creating-mappings
-        --     expr = true
-        -- })
     end
 }
