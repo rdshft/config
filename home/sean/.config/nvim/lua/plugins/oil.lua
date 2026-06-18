@@ -3,6 +3,6 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         require("oil").setup()
-        vim.keymap.set("n", "<leader>o", function() require("oil").open() end)
+        vim.keymap.set("n", "<leader>o", function() require("oil").open() end, { desc = "open oil in current directory" })
     end,
 }

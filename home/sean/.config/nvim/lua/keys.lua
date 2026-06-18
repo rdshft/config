@@ -1,4 +1,4 @@
--- General Keybinds (no plugins)
+-- General Keybinds
 
 -- Splits
 vim.keymap.set("n", "<C-J>", "<C-W><C-J>")
@@ -17,9 +17,9 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
-vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>")
+vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>", { desc = "git status" })
 
 vim.keymap.set("n", "<esc>", "<cmd>nohl<cr>")
 
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "yank selection to clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "yank line to clipboard" })
