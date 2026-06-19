@@ -20,6 +20,8 @@
       videoDrivers = [ "amdgpu" ];
     };
     displayManager.defaultSession = "none+i3";
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "sean";
 
     pipewire = {
       enable = true;
