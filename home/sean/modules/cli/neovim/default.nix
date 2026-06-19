@@ -73,8 +73,8 @@ in
         src = fetchFromGitHub {
           owner = "bluz71";
           repo = "vim-moonfly-colors";
-          rev = "master";
-          hash = "sha256-F2U8QgkMoUyQVifUFKmAO1TT8chAIh0GWkHgCsSqU4A=";
+          rev = "261664f92ed51cf0c077555b2d4b2530307eac17";
+          hash = "sha256-g7Tjm3a1aAbEQocSK1iDRamXivq1AwWlD6Q0X6vphNU=";
         };
       };
 
