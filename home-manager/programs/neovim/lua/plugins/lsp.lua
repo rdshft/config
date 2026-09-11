@@ -18,7 +18,6 @@ vim.lsp.enable({
     'ruff',
     'pylsp',
     'gopls',
-    'clangd',
     'nil_ls'
 })
 
