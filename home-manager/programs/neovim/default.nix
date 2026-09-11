@@ -74,9 +74,8 @@ in
     };
 
     extraPackages = attrValues {
-      inherit (pkgs) lua-language-server gopls tree-sitter;
-      # inherit (pkgs.python311Packages) python-lsp-server;
-      inherit (inputs.nil.packages.x86_64-linux) nil;
+      inherit (pkgs) lua-language-server gopls tree-sitter nil ruff;
+      inherit (pkgs.python3Packages) python-lsp-server;
     };
   };
 

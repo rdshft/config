@@ -18,7 +18,20 @@ vim.lsp.enable({
     'ruff',
     'pylsp',
     'gopls',
-    'clangd'
+    'clangd',
+    'nil_ls'
+})
+
+vim.lsp.config("pylsp", {
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = { enabled = false },
+                pyflakes = { enabled = false },
+                mccabe = { enabled = false },
+            }
+        }
+    }
 })
 
 vim.lsp.config('lua_ls', {
