@@ -18,10 +18,10 @@
         ];
       };
       videoDrivers = [ "amdgpu" ];
+      displayManager.setupCommands = "${pkgs.xrandr}/bin/xrandr --output HDMI-A-0 --mode 2560x1440 --rate 144";
     };
+
     displayManager.defaultSession = "none+i3";
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "sean";
 
     pipewire = {
       enable = true;
@@ -35,7 +35,5 @@
     mullvad-vpn.enable = true;
 
     openssh.enable = true;
-
-    open-webui.enable = true;
   };
 }
