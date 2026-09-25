@@ -46,13 +46,6 @@
   programs.virt-manager.enable = true;
   virtualisation.libvirtd.enable = true;
 
-  # at the time of adding this librewolf had no maintainer in nixpkgs therefore
-  # nix threw an insecure package error
-  nixpkgs.config.permittedInsecurePackages = [
-    "librewolf-bin-151.0.1-2"
-    "librewolf-bin-unwrapped-151.0.1-2"
-  ];
-
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "spotify" ];
 
   environment.pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
