@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   programs.home-manager.enable = true;
 
@@ -9,6 +9,7 @@
     ./programs/i3
     ./programs/neovim
     ./programs/polybar
+    ./programs/quickshell
 
     ./programs/audio.nix
     ./programs/bat.nix
@@ -39,7 +40,7 @@
     homeDirectory = "/home/sean";
     stateVersion = "23.11";
 
-    packages = builtins.attrValues {
+    packages = (builtins.attrValues {
       inherit (pkgs)
       ripgrep
       bfs
@@ -58,8 +59,9 @@
       tokei
       moor
       xkill
-      tenacity;
-    };
+      tenacity
+      grok-build;
+    });
   };
 
   xdg.userDirs.setSessionVariables = true;
