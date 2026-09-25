@@ -76,7 +76,19 @@ in
     extraPackages = attrValues {
       inherit (pkgs) lua-language-server gopls tree-sitter nil ruff;
       inherit (pkgs.python3Packages) python-lsp-server;
+      inherit (pkgs.kdePackages) qtdeclarative; # provides qml lsp
     };
+
+    # qmlls only reads QML_IMPORT_PATH (-E), not the Nix Qt wrapper variable.
+    extraWrapperArgs = [
+      "--prefix"
+      "QML_IMPORT_PATH"
+      ":"
+      (pkgs.lib.makeSearchPath "lib/qt-6/qml" [
+        pkgs.kdePackages.qtdeclarative
+        pkgs.quickshell
+      ])
+    ];
   };
 
   home.file.".config/nvim" = {
