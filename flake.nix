@@ -12,41 +12,25 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      pkgs = nixpkgs.legacyPackages.${system};
       system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+
+      mkHost = name: nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./nixos/${name}
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.sean = import ./home-manager/${name}.nix;
+          }
+        ];
+      };
     in
     {
-      nixosConfigurations = {
-        minotaur = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./nixos/minotaur
-
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.sean = import ./home-manager/minotaur.nix;
-            }
-          ];
-          specialArgs = { inherit inputs; };
-        };
-
-        ceres = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./nixos/ceres
-
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.sean = import ./home-manager/ceres.nix;
-            }
-          ];
-          specialArgs = { inherit inputs; };
-        };
-      };
+      nixosConfigurations = nixpkgs.lib.genAttrs [ "minotaur" "ceres" ] mkHost;
 
       packages.${system} = import ./packages { inherit pkgs; };
     };
