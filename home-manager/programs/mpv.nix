@@ -45,7 +45,14 @@
 
         src = pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/VideoPlayerCode/mpv-tools/refs/heads/master/scripts/cycle-video-rotate.lua";
-          sha256 = "sha256-Zy70mbaEcSBARKSkp0HTNOczcfFyWlrpzpIjQO0cRW4=";
+          sha256 = "sha256-6/6VZIG0qOu8zM6cXqCYzi9/e9RZapeHCcwp+5jWbtA=";
+          nativeBuildInputs = [ pkgs.patch ];
+          downloadToTemp = true;
+          postFetch = ''
+            mv "$downloadedFile" cycle-video-rotate.lua
+            patch -p1 < ${./mpv/cycle-video-rotate-reset.patch}
+            mv cycle-video-rotate.lua "$out"
+          '';
         };
 
         dontUnpack = true;

@@ -1,0 +1,13 @@
+--- a/cycle-video-rotate.lua
++++ b/cycle-video-rotate.lua
+@@ -34,3 +34,10 @@
+ --   Alt+LEFT script-message Cycle_Video_Rotate -90
+ --   Alt+RIGHT script-message Cycle_Video_Rotate 90
+ mp.register_script_message("Cycle_Video_Rotate", cycle_video_rotate)
++
++-- video-rotate is a global option and is not cleared between files.
++-- Reset it before each file loads so a manual rotation does not carry
++-- into the next playlist item. 0 keeps container rotation metadata.
++mp.add_hook("on_load", 50, function()
++    mp.set_property_number("video-rotate", 0)
++end)
