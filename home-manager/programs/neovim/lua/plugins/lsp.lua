@@ -18,7 +18,12 @@ vim.lsp.enable({
     'ruff',
     'pylsp',
     'gopls',
-    'nil_ls'
+    'nil_ls',
+    'qmlls'
+})
+
+vim.lsp.config('qmlls', {
+    cmd = { 'qmlls', '-E' },
 })
 
 vim.lsp.config("pylsp", {
