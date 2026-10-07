@@ -1,13 +1,16 @@
+{ lib, ... }:
 {
   services.picom = {
     enable = true;
-    backend = "glx";
-    fade = true;
-    fadeSteps = [ 1 1 ];
-    inactiveOpacity = 1;
-    activeOpacity = 1;
-    shadow = false;
-    vSync = true;
+    settings = lib.mkForce {
+      backend = "glx";
+      fading = true;
+      fade-delta = 10;
+      fade-in-step = 1;
+      fade-out-step = 1;
+      shadow = false;
+      vsync = true;
+    };
 
     extraConfig = ''
       rules = (
