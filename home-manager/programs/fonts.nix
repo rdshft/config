@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   home.packages = builtins.attrValues {
     inherit (pkgs)
@@ -9,6 +9,7 @@
       dejavu_fonts
       noto-fonts
       fantasque-sans-mono
+      rubik
     ;
   };
 }
