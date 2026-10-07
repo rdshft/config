@@ -64,6 +64,8 @@
       zstyle ':completion:*' use-cache on
       zstyle ':completion:*' cache-path ~/.zcache
 
+      bindkey "^[OA" up-line-or-beginning-search
+      bindkey "^[OB" down-line-or-beginning-search
       bindkey "^[[A" up-line-or-beginning-search
       bindkey "^[[B" down-line-or-beginning-search
 
