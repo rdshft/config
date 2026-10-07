@@ -37,6 +37,10 @@ type treeNode struct {
 const (
     sizeMB int64 = 1024 * 1024
     sizeGB int64 = 1024 * 1024 * 1024
+
+    kindDir       = "dir"
+    kindHiddenDir = ".dir"
+    lsdDirIcon    = "\uf115" // 
 )
 
 func humanizeUnits(units int64) string {
@@ -103,14 +107,44 @@ func lsColorForExt(ext string) string {
 }
 
 func iconForExt(ext string) string {
+    if ext == kindDir || ext == kindHiddenDir {
+        return lsdDirIcon
+    }
     if icon, ok := lsdIcons[strings.ToLower(ext)]; ok {
         return icon
     }
     return lsdDefaultFileIcon
 }
 
+func isDirKind(ext string) bool {
+    return ext == kindDir || ext == kindHiddenDir
+}
+
 func fileTypeLabel(ext string) string {
-    return iconForExt(ext) + " " + ext
+    label := iconForExt(ext) + " " + ext
+    if isDirKind(ext) {
+        label += "/"
+    }
+    return label
+}
+
+func colorizeType(ext string) string {
+    name := iconForExt(ext) + " " + ext
+    colored := colorize(name, colorForKind(ext))
+    if isDirKind(ext) {
+        return colored + "/"
+    }
+    return colored
+}
+
+func colorForKind(ext string) string {
+    if isDirKind(ext) {
+        if code, ok := lsColors["di"]; ok {
+            return code
+        }
+        return ""
+    }
+    return lsColorForExt(ext)
 }
 
 func colorize(s, code string) string {
@@ -128,6 +162,14 @@ func padRight(s string, width int) string {
     return s + strings.Repeat(" ", width-n)
 }
 
+func entrySize(entry fs.DirEntry) int64 {
+    info, err := entry.Info()
+    if err != nil {
+        log.Fatalf("error: %s\n", err)
+    }
+    return info.Size()
+}
+
 func addFile(relPath string, entry fs.DirEntry) {
     if entry.IsDir() {
         return
@@ -143,15 +185,23 @@ func addFile(relPath string, entry fs.DirEntry) {
         return
     }
 
-    info, err := entry.Info()
-    if err != nil {
-        log.Fatalf("error: %s\n", err)
+    found = append(found, fileEntry{
+        path: relPath,
+        ext:  parts[len(parts)-1],
+        size: entrySize(entry),
+    })
+}
+
+func addDir(relPath string, entry fs.DirEntry) {
+    kind := kindDir
+    if strings.HasPrefix(filepath.Base(relPath), ".") {
+        kind = kindHiddenDir
     }
 
     found = append(found, fileEntry{
         path: relPath,
-        ext:  parts[len(parts)-1],
-        size: info.Size(),
+        ext:  kind,
+        size: entrySize(entry),
     })
 }
 
@@ -163,22 +213,27 @@ func collectEntry(path string, entry fs.DirEntry, err error) error {
         return nil
     }
 
-    // Skip hidden names, but not the walk root — cwd itself may be hidden.
-    if path != cwd && strings.HasPrefix(entry.Name(), ".") {
-        if entry.IsDir() {
+    rel, relErr := filepath.Rel(cwd, path)
+    if relErr != nil {
+        rel = path
+    }
+
+    // Don't count the walk root. Hidden dirs are counted, then not entered.
+    hidden := path != cwd && strings.HasPrefix(entry.Name(), ".")
+    if entry.IsDir() {
+        if path != cwd {
+            addDir(rel, entry)
+        }
+        if hidden {
             return fs.SkipDir
         }
         return nil
     }
 
-    if entry.IsDir() {
+    if hidden {
         return nil
     }
 
-    rel, relErr := filepath.Rel(cwd, path)
-    if relErr != nil {
-        rel = path
-    }
     addFile(rel, entry)
     return nil
 }
@@ -235,8 +290,8 @@ func printTree(nodes []*treeNode, prefix, ext string) {
         }
 
         label := node.name
-        if node.isDir {
-            label = colorize(label, lsColors["di"])
+        if node.isDir || isDirKind(ext) {
+            label = colorize(node.name, colorForKind(kindDir)) + "/"
         } else {
             label = colorize(label, lsColorForExt(ext))
         }
@@ -251,7 +306,7 @@ func printTree(nodes []*treeNode, prefix, ext string) {
 func printHelp() {
     name := filepath.Base(os.Args[0])
     fmt.Printf("Usage: %s [-r] [-s] [-t]\n\n", name)
-    fmt.Println("Count files by extension in the current directory.")
+    fmt.Println("Count files and directories in the current directory.")
     fmt.Println()
     fmt.Println("  -r          search recursively")
     fmt.Println("  -s          sort by size instead of count")
@@ -296,6 +351,10 @@ func main() {
             log.Fatalln("error: ", readErr)
         }
         for _, f := range dirents {
+            if f.IsDir() {
+                addDir(f.Name(), f)
+                continue
+            }
             addFile(f.Name(), f)
         }
     }
@@ -307,13 +366,18 @@ func main() {
 
     for _, f := range found {
         fileCount += 1
-        allBytesCount += f.size
+        size := f.size
+        if isDirKind(f.ext) {
+            size = 0
+        } else {
+            allBytesCount += f.size
+        }
 
         isFound := false
         for n, v := range fileTypes {
             if f.ext == v.Extension {
                 fileTypes[n].Count += 1
-                fileTypes[n].BytesCount += f.size
+                fileTypes[n].BytesCount += size
                 fileTypes[n].Paths = append(fileTypes[n].Paths, f.path)
                 isFound = true
                 break
@@ -324,7 +388,7 @@ func main() {
             fileTypes = append(fileTypes, FileType{
                 Extension:  f.ext,
                 Count:      1,
-                BytesCount: f.size,
+                BytesCount: size,
                 Paths:      []string{f.path},
             })
         }
@@ -369,9 +433,12 @@ func main() {
         if pad < 0 {
             pad = 0
         }
-        coloredType := colorize(label, lsColorForExt(v.Extension))
+        coloredType := colorizeType(v.Extension)
         count := padRight(fmt.Sprintf("%d", v.Count), countWidth)
-        size := colorizeSize(humanizeUnits(v.BytesCount), v.BytesCount)
+        size := ""
+        if !isDirKind(v.Extension) {
+            size = colorizeSize(humanizeUnits(v.BytesCount), v.BytesCount)
+        }
         fmt.Printf("%s%s  %s  %s\n", coloredType, strings.Repeat(" ", pad), count, size)
 
         if treeView {
