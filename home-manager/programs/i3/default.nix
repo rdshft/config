@@ -35,6 +35,10 @@ in {
         ];
       };
 
+      assigns = {
+        "${workspace5}" = [{ class = "^Mullvad VPN$"; }];
+      };
+
       colors = {
         focused = rec {
           border = "#80a0ff"; # https://github.com/bluz71/vim-moonfly-colors/blob/4f7d18cb471ede7407dd966c7563868cae7f4f99/lua/moonfly/init.lua#L38
@@ -131,6 +135,10 @@ in {
         { command = "${pkgs.dunst}/bin/dunst"; }
         { command = "${pkgs.polybar}/bin/polybar"; }
         { command = "${pkgs.networkmanagerapplet}/bin/nm-applet"; }
+        {
+          command = "${pkgs.mullvad-vpn}/bin/mullvad-vpn";
+          notification = false;
+        }
       ];
     };
   };
